@@ -7,19 +7,9 @@ import "@typechain/hardhat";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
 
-import "./tasks/tasks"
+import "./tasks/index"
 
 dotenv.config();
-
-export const contractAddress = "0x192B8F0Dec239f9F3d503c08F3FBe6D6584aA7cC";
-export const network = 'rinkeby'
-export const api_key = process.env.API_KEY
-export const private_key : string = process.env.PRIVATE_KEY!;
-export const name = "Arman"
-export const symbol = "ARM"
-export const decimals = 8
-export const totalSupply = 1000000
-
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html

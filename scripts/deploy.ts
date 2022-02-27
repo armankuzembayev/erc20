@@ -1,6 +1,6 @@
 import { ethers } from "hardhat";
 
-import * as Configs from "../hardhat.config"
+import * as Configs from "../config"
 
 async function main() {
 

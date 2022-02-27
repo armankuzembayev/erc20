@@ -1,0 +1,10 @@
+export const contractAddress = "0x192B8F0Dec239f9F3d503c08F3FBe6D6584aA7cC";
+export const contractName = "Erc20"
+export const network = "rinkeby"
+export const api_key = process.env.API_KEY
+export const private_key : string = process.env.PRIVATE_KEY!;
+export const name = "Arman"
+export const symbol = "ARM"
+export const decimals = 18
+export const totalSupply = "1000000"
+export const zeroAddress = "0x0000000000000000000000000000000000000000"

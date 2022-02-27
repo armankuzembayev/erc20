@@ -1,7 +1,6 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
-import "hardhat/console.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
 contract Erc20 is AccessControl {
@@ -23,18 +22,11 @@ contract Erc20 is AccessControl {
     mapping(address => mapping(address => uint256)) private allowances;
 
     constructor(string memory _name, string memory _symbol, uint8 _decimals, uint256 _totalSupply) {
-        _setRoleAdmin(ADMIN, ADMIN);
         _setRoleAdmin(MINTER, ADMIN);
         _setRoleAdmin(BURNER, ADMIN);
 
-        _setupRole(ADMIN, _msgSender());
-        _setupRole(ADMIN, address(this));
-         
-        _setupRole(MINTER, _msgSender());
-        _setupRole(MINTER, address(this));
-
-        _setupRole(BURNER, _msgSender());
-        _setupRole(BURNER, address(this));
+        _setupRole(MINTER, msg.sender);
+        _setupRole(BURNER, msg.sender);
 
         name = _name;
         symbol = _symbol;
@@ -43,8 +35,8 @@ contract Erc20 is AccessControl {
     }
 
     function transfer(address _recipient, uint256 _amount) public returns (bool) {
-        require(_recipient != address(0));
-        require(balances[msg.sender] >= _amount);
+        require(_recipient != address(0), "Cannot be zero address");
+        require(balances[msg.sender] >= _amount, "Not enough balance");
     
         balances[msg.sender] -= _amount;
         balances[_recipient] += _amount;
@@ -54,10 +46,10 @@ contract Erc20 is AccessControl {
     }
 
     function transferFrom(address _sender, address _recipient, uint256 _amount) public returns (bool) {
-        require(_sender != address(0));
-        require(_recipient != address(0));
-        require(allowances[_sender][msg.sender] >= _amount);
-        require(balances[_sender] >= _amount);
+        require(_sender != address(0), "Cannot be zero address");
+        require(_recipient != address(0), "Cannot be zero address");
+        require(allowances[_sender][msg.sender] >= _amount, "Not enough allowance");
+        require(balances[_sender] >= _amount, "Not enough balance");
 
         allowances[_sender][msg.sender] -= _amount;
         balances[_sender] -= _amount;
@@ -68,7 +60,7 @@ contract Erc20 is AccessControl {
     }
 
     function approve(address _spender, uint256 _amount) public returns (bool) {
-        require(_spender != address(0));
+        require(_spender != address(0), "Cannot be zero address");
 
         allowances[msg.sender][_spender] = _amount;
 
@@ -77,7 +69,7 @@ contract Erc20 is AccessControl {
     }
 
     function increaseAllowance(address _spender, uint256 _amount) public returns (bool) {
-        require(_spender != address(0));
+        require(_spender != address(0), "Cannot be zero address");
 
         allowances[msg.sender][_spender] += _amount;
 
@@ -85,7 +77,7 @@ contract Erc20 is AccessControl {
     }
 
     function decreaseAllowance(address _spender, uint256 _amount) public returns (bool) {
-        require(_spender != address(0));
+        require(_spender != address(0), "Cannot be zero address");
 
         uint256 currentAllowance = allowances[msg.sender][_spender];
         if (currentAllowance < _amount) {
@@ -106,7 +98,7 @@ contract Erc20 is AccessControl {
     }
 
     function mint(address _recipient, uint256 _amount) public onlyRole(MINTER) {
-        require(_recipient != address(0));
+        require(_recipient != address(0), "Cannot be zero address");
         
         totalSupply += _amount;
         balances[_recipient] += _amount;
@@ -116,9 +108,9 @@ contract Erc20 is AccessControl {
 
 
     function burn(address _account, uint256 _amount) public onlyRole(BURNER) {
-        require(_account != address(0));
-        require(totalSupply >= _amount);
-        require(balances[_account] >= _amount);
+        require(_account != address(0), "Cannot be zero address");
+        require(totalSupply >= _amount, "Amount exceeds total supply");
+        require(balances[_account] >= _amount, "Not enough balance");
 
         totalSupply -= _amount;
         balances[_account] -= _amount;

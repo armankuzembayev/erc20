@@ -1,7 +1,5 @@
 import { task } from "hardhat/config";
-// import * as Configs from "../config"
 
-// const artifact = require('../artifacts/contracts/Erc20.sol/Erc20.json')
 
 const abiERC20 = [
     "event Transfer(address indexed _from, address indexed _to, uint256 _amount)",
@@ -15,17 +13,25 @@ const abiERC20 = [
     "function balanceOf(address _user) external view returns (uint256)"
 ]
 
-task("mint", "Mint some amount")
-    .addParam("token", "Token address")
-    .addParam("recipient", "The recipient's address")
-    .addParam("amount", "How much to approve")
+const abiStaking = [
+    "function stake(uint256 _amount) external",
+    "function unstake() external",
+    "function claim() external",
+    "function balanceOf(address _user) public view returns (uint256)"
+]
+
+task("unstake", "Unstake LP Tokens")
+    .addParam("contract", "Contract address")
+    .addParam("user", "The user's address")
     .setAction(async  (taskArgs, { ethers }) => {
 
-const contract = await ethers.getContractAt(abiERC20, taskArgs.token)
+    const contract = await ethers.getContractAt(abiStaking, taskArgs.contract);
+    const lp = await contract.unstake();
+    // await lp.wait()
+    // console.log("LP unstaked: ", ethers.utils.formatEther(lp.value));
 
-const mint = await contract.mint(taskArgs.recipient, ethers.utils.parseEther(taskArgs.amount))
-await mint.wait()
+    // const balance = await contract.balanceOf(taskArgs.user);
+    // console.log("LP Balance: ", ethers.utils.formatEther(balance));
 
-const balance = await contract.balanceOf(taskArgs.recipient)
-console.log("Current balance of recipient: ", ethers.utils.formatEther(balance))
 });
+

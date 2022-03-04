@@ -32,6 +32,26 @@ declare module "hardhat/types/runtime" {
       name: "Erc20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Erc20__factory>;
+    getContractFactory(
+      name: "IErc20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IErc20__factory>;
+    getContractFactory(
+      name: "IUniswapV2Factory",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IUniswapV2Factory__factory>;
+    getContractFactory(
+      name: "IUniswapV2Router",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IUniswapV2Router__factory>;
+    getContractFactory(
+      name: "IErc20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IErc20__factory>;
+    getContractFactory(
+      name: "Staking",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Staking__factory>;
 
     getContractAt(
       name: "AccessControl",
@@ -58,6 +78,31 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.Erc20>;
+    getContractAt(
+      name: "IErc20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IErc20>;
+    getContractAt(
+      name: "IUniswapV2Factory",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IUniswapV2Factory>;
+    getContractAt(
+      name: "IUniswapV2Router",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IUniswapV2Router>;
+    getContractAt(
+      name: "IErc20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IErc20>;
+    getContractAt(
+      name: "Staking",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Staking>;
 
     // default types
     getContractFactory(

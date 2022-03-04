@@ -15,17 +15,22 @@ const abiERC20 = [
     "function balanceOf(address _user) external view returns (uint256)"
 ]
 
-task("mint", "Mint some amount")
+
+task("transferFrom", "Transfer some amount of token")
     .addParam("token", "Token address")
+    .addParam("sender", "The sender's address")
     .addParam("recipient", "The recipient's address")
-    .addParam("amount", "How much to approve")
+    .addParam("amount", "How much to send")
     .setAction(async  (taskArgs, { ethers }) => {
+    
+    const contract = await ethers.getContractAt(abiERC20, taskArgs.token)
+    
+    const transferFrom = await contract.transferFrom(taskArgs.sender, taskArgs.recipient, ethers.utils.parseEther(taskArgs.amount))
+    await transferFrom.wait()
 
-const contract = await ethers.getContractAt(abiERC20, taskArgs.token)
+    const balanceSender = await contract.balanceOf(taskArgs.sender)
+    console.log("Current balance of sender after transfer: ", ethers.utils.formatEther(balanceSender))
 
-const mint = await contract.mint(taskArgs.recipient, ethers.utils.parseEther(taskArgs.amount))
-await mint.wait()
-
-const balance = await contract.balanceOf(taskArgs.recipient)
-console.log("Current balance of recipient: ", ethers.utils.formatEther(balance))
+    const balanceRecipient = await contract.balanceOf(taskArgs.recipient)
+    console.log("Current balance of recipient after transfer: ", ethers.utils.formatEther(balanceRecipient))
 });

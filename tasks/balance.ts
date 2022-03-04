@@ -1,7 +1,6 @@
 import { task } from "hardhat/config";
 // import * as Configs from "../config"
 
-// const artifact = require('../artifacts/contracts/Erc20.sol/Erc20.json')
 
 const abiERC20 = [
     "event Transfer(address indexed _from, address indexed _to, uint256 _amount)",
@@ -15,17 +14,14 @@ const abiERC20 = [
     "function balanceOf(address _user) external view returns (uint256)"
 ]
 
-task("mint", "Mint some amount")
+
+task("balance", "Get balance of")
     .addParam("token", "Token address")
-    .addParam("recipient", "The recipient's address")
-    .addParam("amount", "How much to approve")
+    .addParam("user", "The user's address")
     .setAction(async  (taskArgs, { ethers }) => {
-
-const contract = await ethers.getContractAt(abiERC20, taskArgs.token)
-
-const mint = await contract.mint(taskArgs.recipient, ethers.utils.parseEther(taskArgs.amount))
-await mint.wait()
-
-const balance = await contract.balanceOf(taskArgs.recipient)
-console.log("Current balance of recipient: ", ethers.utils.formatEther(balance))
+    
+    const arm = await ethers.getContractAt(abiERC20, taskArgs.token);
+    
+    const balance = await arm.balanceOf(taskArgs.user);
+    console.log("User's balance is: ", ethers.utils.formatEther(balance));
 });

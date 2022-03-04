@@ -9,7 +9,6 @@ contract Erc20 is AccessControl {
     bytes32 public constant MINTER = keccak256("MINTER");
     bytes32 public constant BURNER = keccak256("BURNER");
 
-
     event Transfer(address indexed _from, address indexed _to, uint256 _amount);
     event Approval(address indexed _owner, address indexed _spender, uint256 _amount);
 

@@ -33,10 +33,10 @@ describe("ERC20", function ()  {
     describe("Deployment", function() {
 
         it("Should initialize correctly", async function() {
-            expect(await hardhatToken.name()).to.equal("Arman");
+            expect(await hardhatToken.name()).to.equal("ArmanToken");
             expect(await hardhatToken.symbol()).to.equal("ARM");
             expect(await hardhatToken.decimals()).to.equal(18);
-            expect(await hardhatToken.totalSupply()).to.equal(ethers.utils.parseEther("1003000"));
+            expect(await hardhatToken.totalSupply()).to.equal(ethers.utils.parseEther("1000000000000000000003000"));
             expect(await hardhatToken.balanceOf(owner.address)).to.equal(ethers.utils.parseEther("1000"));
             expect(await hardhatToken.balanceOf(addr1.address)).to.equal(ethers.utils.parseEther("1000"));
             expect(await hardhatToken.balanceOf(addr2.address)).to.equal(ethers.utils.parseEther("1000"));
@@ -217,14 +217,14 @@ describe("ERC20", function ()  {
                 withArgs(zeroAddress, owner.address, ethers.utils.parseEther("1000"))
 
                 expect(await hardhatToken.totalSupply()).
-                to.equal(ethers.utils.parseEther("1004000"));
+                to.equal(ethers.utils.parseEther("1000000000000000000004000"));
                 expect(await hardhatToken.balanceOf(owner.address)).
                 to.equal(ethers.utils.parseEther("2000"))
             });
 
             it("Should burn", async function() {
 
-                await expect(hardhatToken.burn(owner.address, ethers.utils.parseEther("1000000000"))).
+                await expect(hardhatToken.burn(owner.address, ethers.utils.parseEther("1000000000000000000000000000"))).
                 to.be.revertedWith("Amount exceeds total supply");
 
                 await expect(hardhatToken.burn(owner.address, ethers.utils.parseEther("1000"))).
@@ -235,7 +235,7 @@ describe("ERC20", function ()  {
                 to.be.revertedWith("Not enough balance");
 
                 expect(await hardhatToken.totalSupply()).
-                to.equal(ethers.utils.parseEther("1002000"));
+                to.equal(ethers.utils.parseEther("1000000000000000000002000"));
                 expect(await hardhatToken.balanceOf(owner.address)).
                 to.equal(ethers.utils.parseEther("0"))
             });
